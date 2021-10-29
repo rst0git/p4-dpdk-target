@@ -168,9 +168,13 @@ bf_status_t bf_pal_port_str_to_dev_port_map(bf_dev_id_t dev_id,
 {
 	u32 conn = 0, chnl = 0;
 	struct bf_pal_port_info *port_info = NULL;
+
 	bf_pal_port_str_to_info(port_str, &conn, &chnl);
 	port_info = pm_port_info_get_from_port_map(dev_id, conn, chnl);
-	*dev_port = port_info->dev_port;
 
+	if (port_info == NULL)
+		return BF_NO_SYS_RESOURCES;
+
+	*dev_port = port_info->dev_port;
 	return BF_SUCCESS;
 }
